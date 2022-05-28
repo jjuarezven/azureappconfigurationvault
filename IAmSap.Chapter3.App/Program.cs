@@ -22,10 +22,12 @@ namespace IAmSap.Chapter3.App
             WebHost.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((hostingContext, config) =>
             {
-                config.SetBasePath(Directory.GetCurrentDirectory());
-                config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-                config.AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true);
-                config.AddEnvironmentVariables();
+                var settings = config.Build();
+                config.AddAzureAppConfiguration(settings["ConnectionStrings:AppConfig"]);
+                //config.SetBasePath(Directory.GetCurrentDirectory());
+                //config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                //config.AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true);
+                //config.AddEnvironmentVariables();
             })
                 .UseStartup<Startup>();
     }
