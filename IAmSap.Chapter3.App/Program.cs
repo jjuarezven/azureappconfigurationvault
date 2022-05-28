@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace IAmSap.Chapter3.App
 {
@@ -23,7 +18,17 @@ namespace IAmSap.Chapter3.App
             .ConfigureAppConfiguration((hostingContext, config) =>
             {
                 var settings = config.Build();
-                config.AddAzureAppConfiguration(settings["ConnectionStrings:AppConfig"]);
+                config.AddAzureAppConfiguration(options =>
+                {
+                    // 1 To refresh the application without restarting it, we configure it to watch a specific Key inside
+                    // Azure App Configuration, in this case "Version" and even we can configure the cache expiration to make that refresh fast
+                    options.Connect(settings["ConnectionStrings:AppConfig"])
+                    .ConfigureRefresh(refresh =>
+                    {
+                        refresh.Register("Version", true).SetCacheExpiration(TimeSpan.FromSeconds(5));
+                    });
+                });
+                //config.AddAzureAppConfiguration(settings["ConnectionStrings:AppConfig"]);
                 //config.SetBasePath(Directory.GetCurrentDirectory());
                 //config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
                 //config.AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true);

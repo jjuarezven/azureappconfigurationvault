@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using IAmSap.Chapter3.App.Models.Config;
+﻿using IAmSap.Chapter3.App.Models.Config;
 using IAmSap.Chapter3.App.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,6 +44,8 @@ namespace IAmSap.Chapter3.App
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            // 2 To refresh the application without restarting it, we configure have to add this UseAzureAppConfiguration to pipeline
+            app.UseAzureAppConfiguration();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
