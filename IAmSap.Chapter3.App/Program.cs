@@ -26,7 +26,10 @@ namespace IAmSap.Chapter3.App
                     .ConfigureRefresh(refresh =>
                     {
                         refresh.Register("Version", true).SetCacheExpiration(TimeSpan.FromSeconds(5));
-                    });
+                    })
+                    // 3 In order to the application refresh changes applied on feature flags we need to add this UseFeatureFlags
+                    // and update the value of the "Version" key to trigger the refresh process
+                    .UseFeatureFlags();
                 });
                 //config.AddAzureAppConfiguration(settings["ConnectionStrings:AppConfig"]);
                 //config.SetBasePath(Directory.GetCurrentDirectory());
