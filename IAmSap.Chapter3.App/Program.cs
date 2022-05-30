@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 
 namespace IAmSap.Chapter3.App
 {
@@ -23,6 +24,7 @@ namespace IAmSap.Chapter3.App
                     // 1 To refresh the application without restarting it, we configure it to watch a specific Key inside
                     // Azure App Configuration, in this case "Version" and even we can configure the cache expiration to make that refresh fast
                     options.Connect(settings["ConnectionStrings:AppConfig"])
+                    .Use(KeyFilter.Any, settings["Environment"])
                     .ConfigureRefresh(refresh =>
                     {
                         refresh.Register("Version", true).SetCacheExpiration(TimeSpan.FromSeconds(5));
