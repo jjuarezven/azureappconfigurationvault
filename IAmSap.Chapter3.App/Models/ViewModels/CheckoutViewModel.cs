@@ -8,5 +8,6 @@ namespace IAmSap.Chapter3.App.Models.ViewModels
     public class CheckoutViewModel
     {
         public bool IsDiscountEnabled { get; set; }
+        public string SecretDiscountCode { get; set; } 
     }
 }
